@@ -1,0 +1,113 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "mount_file_id": "1pcJzBhhxh6rDLmJYlObMFbWIe_wjmZ3B",
+      "authorship_tag": "ABX9TyPRdJ/smovDqEYM49k6G9qs",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Fadila0mar/strawberry-lemon-flask/blob/main/project\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 5,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "mHPQ3gQXYCZd",
+        "outputId": "755da862-757a-4b9e-99f1-0f2dbb8d8454"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "✅ Files created in: strawberry_lemon_app\n",
+            "Contents: ['requirements.txt', 'README.md', 'app.py']\n"
+          ]
+        }
+      ],
+      "source": [
+        "# 1. Create project folder\n",
+        "import os\n",
+        "\n",
+        "project_name = \"strawberry_lemon_app\"\n",
+        "os.makedirs(project_name, exist_ok=True)\n",
+        "\n",
+        "# 2. Write app.py\n",
+        "app_code = \"\"\"\\\n",
+        "import gradio as gr\n",
+        "from ultralytics import YOLO\n",
+        "import cv2\n",
+        "\n",
+        "# Load your trained YOLOv8 model\n",
+        "model = YOLO(\"best.pt\")  # replace with correct path if needed\n",
+        "\n",
+        "def predict(image):\n",
+        "    # Run YOLO prediction\n",
+        "    results = model(image)\n",
+        "\n",
+        "    # Annotated image with bounding boxes\n",
+        "    annotated_frame = results[0].plot()\n",
+        "    return annotated_frame\n",
+        "\n",
+        "# Gradio interface\n",
+        "demo = gr.Interface(\n",
+        "    fn=predict,\n",
+        "    inputs=gr.Image(type=\"numpy\", label=\"Upload an image\"),\n",
+        "    outputs=gr.Image(type=\"numpy\", label=\"Detection Result\"),\n",
+        "    title=\"🍓🍋 Strawberry vs Lemon Detector\",\n",
+        "    description=\"Upload an image and the YOLOv8 model will detect strawberries and lemons.\"\n",
+        ")\n",
+        "\n",
+        "if __name__ == \"__main__\":\n",
+        "    demo.launch()\n",
+        "\"\"\"\n",
+        "with open(os.path.join(project_name, \"app.py\"), \"w\") as f:\n",
+        "    f.write(app_code)\n",
+        "\n",
+        "# 3. Write requirements.txt\n",
+        "reqs = \"\"\"\\\n",
+        "ultralytics\n",
+        "gradio\n",
+        "opencv-python-headless\n",
+        "\"\"\"\n",
+        "with open(os.path.join(project_name, \"requirements.txt\"), \"w\") as f:\n",
+        "    f.write(reqs)\n",
+        "\n",
+        "# 4. Write README.md\n",
+        "readme = \"\"\"\\\n",
+        "# 🍓🍋 Strawberry vs Lemon Detector\n",
+        "\n",
+        "A YOLOv8 object detection demo deployed on Hugging Face Spaces using Gradio.\n",
+        "Upload an image, and the model will detect strawberries and lemons.\n",
+        "\"\"\"\n",
+        "with open(os.path.join(project_name, \"README.md\"), \"w\") as f:\n",
+        "    f.write(readme)\n",
+        "\n",
+        "print(\"✅ Files created in:\", project_name)\n",
+        "print(\"Contents:\", os.listdir(project_name))\n"
+      ]
+    }
+  ]
+}
