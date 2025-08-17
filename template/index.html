@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Strawberries vs Lemons Detector 🍓🍋</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🍓🍋 Strawberry vs Lemon Detector 🍋🍓</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" required>
+            <button type="submit">Detect!</button>
+        </form>
+        {% if result_image %}
+            <h2>Prediction Result:</h2>
+            <img src="{{ url_for('static', filename='results/' + result_image.split('/')[-1]) }}" alt="Result">
+        {% endif %}
+    </div>
+</body>
+</html>
