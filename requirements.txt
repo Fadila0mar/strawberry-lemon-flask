@@ -1,3 +1,4 @@
-flask
-ultralytics
-werkzeug
+flask==2.3.6
+ultralytics==8.0.134
+opencv-python-headless==4.8.1.78
+numpy==1.26.5
